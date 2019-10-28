@@ -6,7 +6,6 @@
 
 <script>
 import cloneForm from './components/CloneForm.vue'
-// import demo from './components/demo.vue'
 
 export default {
   name: 'app',
