@@ -31,8 +31,6 @@ export default {
         { id: 2, label: "下拉框", type: "select", value: "" },
         { id: 3, label: "多行文本框", type: "textarea", value: "" },
         { id: 4, label: "日期选择器", type: "datePicker", value: "" },
-        { type: "title" },
-        { type: "btn" }
       ]
     };
   },

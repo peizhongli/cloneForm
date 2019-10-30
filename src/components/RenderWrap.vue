@@ -12,14 +12,21 @@
         @click="setMain"
       ></el-link>
       <draggable :list="list" :options="options" element="el-form">
-        <renders v-for="element in list" :key="element.id" :element="element" :model="model"></renders>
+        <renders
+          v-for="element in list"
+          :key="element.id"
+          :element="element"
+          :model="model"
+          @editElement="editElement"
+          @deleteElement="deleteElement"
+        ></renders>
       </draggable>
       <div class="dialog-btn-group">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="confirmOpt">确 定</el-button>
+        <el-button @click="dialogFormVisible = false">{{mainSetting.cancel}}</el-button>
+        <el-button type="primary" @click="confirmOpt">{{mainSetting.confirm}}</el-button>
       </div>
     </el-card>
-    <el-dialog title="弹窗参数设置" :visible.sync="dialogFormVisible">
+    <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
       <el-checkbox-group v-model="mainSetting.checkList">
         <el-checkbox label="标题"></el-checkbox>
         <el-checkbox label="确认按钮"></el-checkbox>
@@ -27,24 +34,27 @@
       </el-checkbox-group>
       <el-form :model="mainSetting" :label-width="'70px'" class="main-form">
         <el-form-item label="设置标题">
-          <el-input v-model="mainSetting.title" :disabled="mainSetting.checkList.indexOf('标题')<0"></el-input>
+          <el-input
+            v-model="mainSetting.newTitle"
+            :disabled="mainSetting.checkList.indexOf('标题')<0"
+          ></el-input>
         </el-form-item>
         <el-form-item label="确认话术">
           <el-input
-            v-model="mainSetting.confirm"
+            v-model="mainSetting.newConfirm"
             :disabled="mainSetting.checkList.indexOf('确认按钮')<0"
           ></el-input>
         </el-form-item>
         <el-form-item label="取消话术">
           <el-input
-            v-model="mainSetting.cancel"
+            v-model="mainSetting.newCancel"
             :disabled="mainSetting.checkList.indexOf('取消按钮')<0"
           ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="confirmOpt">确 定</el-button>
+        <el-button type="primary" @click="confirmOpt">确 认</el-button>
       </div>
     </el-dialog>
   </div>
@@ -62,24 +72,44 @@ export default {
   },
   data() {
     return {
+      dialogTitle: "弹窗参数设置",
       dialogFormVisible: false,
       mainSetting: {
         checkList: [],
         title: "请填写以下内容",
         confirm: "确认",
-        cancel: "取消"
+        cancel: "取消",
+        newTitle: "请填写以下内容",
+        newConfirm: "确认",
+        newCancel: "取消"
       }
     };
   },
   methods: {
     setMain() {
+      this.dialogTitle = "弹窗参数设置";
       this.dialogFormVisible = true;
     },
     confirmOpt() {
-      //   this.mainSetting.checkList.forEach(i => {
-      //     if (i === "标题" && this.mainSetting.title !== "") {
-      //     }
-      //   });
+      this.mainSetting.checkList.forEach(i => {
+        if (i === "标题" && this.mainSetting.newTitle !== "") {
+          this.mainSetting.title = this.mainSetting.newTitle;
+        } else if (i === "确认按钮" && this.mainSetting.newConfirm !== "") {
+          this.mainSetting.confirm = this.mainSetting.newConfirm;
+        } else if (i === "取消按钮" && this.mainSetting.newCancel !== "") {
+          this.mainSetting.cancel = this.mainSetting.newCancel;
+        }
+      });
+      this.dialogFormVisible = false;
+    },
+    editElement(ele) {
+      this.dialogTitle = "元素参数设置";
+      this.dialogFormVisible = true;
+      this.$emit("editElement", ele);
+      console.log(ele);
+    },
+    deleteElement(ele) {
+      this.$emit("deleteElement", ele);
     }
   }
 };
@@ -105,6 +135,9 @@ h3 {
   font-weight: 400;
 }
 .dialog-btn-group {
-    text-align: center;
+  text-align: center;
+}
+.el-form {
+  padding-bottom: 15px;
 }
 </style>
