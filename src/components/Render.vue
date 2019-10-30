@@ -5,25 +5,45 @@
     :class="model==='custom'?'custom-item':''"
   >
     <!-- 下拉框 -->
-    <el-select v-if="element.type==='select'" v-model="element.value" placeholder="请选择">
+    <el-select
+      v-if="element.type==='select'"
+      v-model="element.value"
+      :required="element.required"
+      :clearable="element.clearable"
+      :placeholder="element.placeholder||'请选择'"
+      :maxLength="element.maxLength"
+    >
       <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
     </el-select>
     <!-- 单行文本框 -->
-    <el-input v-if="element.type==='input'" v-model="element.value" placeholder="请输入内容"></el-input>
+    <el-input
+      v-if="element.type==='input'"
+      v-model="element.value"
+      :required="element.required"
+      :clearable="element.clearable"
+      :placeholder="element.placeholder||'请输入内容'"
+      :maxLength="element.maxLength"
+    ></el-input>
     <!-- 多行文本框 -->
     <el-input
       v-if="element.type==='textarea'"
       type="textarea"
       :rows="2"
-      placeholder="请输入内容"
       v-model="element.value"
+      :required="element.required"
+      :clearable="element.clearable"
+      :placeholder="element.placeholder||'请输入内容'"
+      :maxLength="element.maxLength"
     ></el-input>
     <!-- 日期选择器 -->
     <el-date-picker
       v-if="element.type==='datePicker'"
       v-model="element.value"
       type="date"
-      placeholder="选择日期"
+      :required="element.required"
+      :clearable="element.clearable"
+      :placeholder="element.placeholder||'请选择日期'"
+      :maxLength="element.maxLength"
     ></el-date-picker>
     <!-- 按钮组 -->
     <section class="btn-group" v-if="model==='custom'">

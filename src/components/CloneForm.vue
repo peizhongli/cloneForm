@@ -6,7 +6,13 @@
     </section>
     <section class="custom">
       <h3>预览</h3>
-      <render-wrap :list="customList" :options="customOpt" model="custom"></render-wrap>
+      <render-wrap
+        :list="customList"
+        :options="customOpt"
+        model="custom"
+        @deleteElement="deleteEle"
+        @editElement="editEle"
+      ></render-wrap>
     </section>
   </div>
 </template>
@@ -30,18 +36,25 @@ export default {
         { id: 1, label: "输入框", type: "input", value: "" },
         { id: 2, label: "下拉框", type: "select", value: "" },
         { id: 3, label: "多行文本框", type: "textarea", value: "" },
-        { id: 4, label: "日期选择器", type: "datePicker", value: "" },
+        { id: 4, label: "日期选择器", type: "datePicker", value: "" }
       ]
     };
   },
   computed: {},
   methods: {
-    handleDel(index, id) {
-      this.list1.splice(index, 1);
-      let q = this.list2.find(value => {
-        return value.id === id;
-      });
-      this.$set(q, "flag", false);
+    deleteEle(ele, index) {
+      this.customList.splice(index, 1);
+    },
+    editEle(ele, index) {
+      for (let i = 0; i < this.customList.length; i++) {
+        if (i === index) {
+          for(let j in ele) {
+            this.customList[i][j]=ele[j]
+          }
+          console.log(this.customList[i]);
+          break;
+        }
+      }
     }
   }
 };
