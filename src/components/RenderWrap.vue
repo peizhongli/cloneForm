@@ -11,7 +11,7 @@
         v-if="model==='custom'"
         @click="setMain"
       ></el-link>
-      <draggable :list="list" :options="options" element="el-form" class="main-wrap">
+      <draggable :clone="cloneList" :list="list" :options="options" element="el-form" class="main-wrap">
         <renders
           v-for="(element,index) in list"
           :key="element.id"
@@ -155,7 +155,11 @@ export default {
     },
     deleteElement(ele, index) {
       this.$emit("deleteElement", ele, index);
-    }
+    },
+    cloneList(original) {
+      // 深拷贝对象，防止默认空对象被更改
+      return JSON.parse(JSON.stringify(original));
+    },
   },
   computed: {
     eleSettingList() {
@@ -163,7 +167,7 @@ export default {
         return {
           label: i.label,
           required: false,
-          placeholder: "请输入内容",
+          placeholder: "",
           maxLength: 20,
           dictionary: "",
           clearable: false,

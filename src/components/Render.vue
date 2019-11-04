@@ -3,13 +3,13 @@
     :label="element.label"
     label-width="100px"
     :class="model==='custom'?'custom-item':''"
+    :required="element.required"
+    :clearable="element.clearable"
   >
     <!-- 下拉框 -->
     <el-select
       v-if="element.type==='select'"
       v-model="element.value"
-      :required="element.required"
-      :clearable="element.clearable"
       :placeholder="element.placeholder||'请选择'"
       :maxLength="element.maxLength"
     >
@@ -19,8 +19,6 @@
     <el-input
       v-if="element.type==='input'"
       v-model="element.value"
-      :required="element.required"
-      :clearable="element.clearable"
       :placeholder="element.placeholder||'请输入内容'"
       :maxLength="element.maxLength"
     ></el-input>
@@ -30,8 +28,6 @@
       type="textarea"
       :rows="2"
       v-model="element.value"
-      :required="element.required"
-      :clearable="element.clearable"
       :placeholder="element.placeholder||'请输入内容'"
       :maxLength="element.maxLength"
     ></el-input>
@@ -40,8 +36,6 @@
       v-if="element.type==='datePicker'"
       v-model="element.value"
       type="date"
-      :required="element.required"
-      :clearable="element.clearable"
       :placeholder="element.placeholder||'请选择日期'"
       :maxLength="element.maxLength"
     ></el-date-picker>
