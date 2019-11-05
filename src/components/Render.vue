@@ -4,7 +4,6 @@
     label-width="100px"
     :class="model==='custom'?'custom-item':''"
     :required="element.required"
-    :clearable="element.clearable"
   >
     <!-- 下拉框 -->
     <el-select
@@ -12,6 +11,7 @@
       v-model="element.value"
       :placeholder="element.placeholder||'请选择'"
       :maxLength="element.maxLength"
+      :clearable="element.clearable"
     >
       <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
     </el-select>
@@ -21,6 +21,7 @@
       v-model="element.value"
       :placeholder="element.placeholder||'请输入内容'"
       :maxLength="element.maxLength"
+      :clearable="element.clearable"
     ></el-input>
     <!-- 多行文本框 -->
     <el-input
@@ -30,6 +31,7 @@
       v-model="element.value"
       :placeholder="element.placeholder||'请输入内容'"
       :maxLength="element.maxLength"
+      :clearable="element.clearable"
     ></el-input>
     <!-- 日期选择器 -->
     <el-date-picker
@@ -38,6 +40,7 @@
       type="date"
       :placeholder="element.placeholder||'请选择日期'"
       :maxLength="element.maxLength"
+      :clearable="element.clearable"
     ></el-date-picker>
     <!-- 按钮组 -->
     <section class="btn-group" v-if="model==='custom'">
@@ -47,6 +50,8 @@
         plain
         circle
         size="mini"
+        :class="element.dictionary===''||!element.dictionary?'warn-btn edit-btn':'edit-btn'"
+        :title="element.dictionary===''||!element.dictionary?'请填写唯一标识，否则无效':''"
         @click="editElement(element)"
       ></el-button>
       <el-button
@@ -91,6 +96,21 @@ export default {
   display: inline-block;
   vertical-align: top;
   margin-left: 10px;
+}
+.edit-btn {
+  position: relative;
+}
+.warn-btn::after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #f56c6c;
+  border: 1px solid #fff;
+  top: -2px;
+  right: -4px;
 }
 .custom-item >>> .el-form-item__content > div {
   max-width: 80%;

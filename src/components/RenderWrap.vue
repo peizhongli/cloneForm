@@ -67,7 +67,7 @@
           <el-form-item label="占位内容">
             <el-input v-model="eleSetting.placeholder"></el-input>
           </el-form-item>
-          <el-form-item label="最大长度">
+          <el-form-item label="最大长度" v-show="eleSetting.type==='input'||eleSetting.type==='textarea'">
             <el-input v-model="eleSetting.maxLength"></el-input>
           </el-form-item>
           <el-form-item label="输入类型" v-show="eleSetting.type==='input'">
@@ -145,9 +145,10 @@ export default {
     editElement(ele, index) {
       this.dialogTitle = "元素参数设置";
       this.dialogFormVisible = true;
-      for (let i = 0; i < this.eleSettingList.length; i++) {
+      for (let i = 0; i < this.list.length; i++) {
         if (i === index) {
-          this.eleSetting = JSON.parse(JSON.stringify(this.eleSettingList[i]));
+          this.eleSetting = JSON.parse(JSON.stringify(this.list[i]));
+          console.log(this.eleSetting)
           break;
         }
       }
@@ -160,6 +161,7 @@ export default {
       // 深拷贝对象，防止默认空对象被更改
       return JSON.parse(JSON.stringify(original));
     },
+    previewCard(){}
   },
   computed: {
     eleSettingList() {
