@@ -51,7 +51,7 @@
         circle
         size="mini"
         :class="element.dictionary===''||!element.dictionary?'warn-btn edit-btn':'edit-btn'"
-        :title="element.dictionary===''||!element.dictionary?'请填写唯一标识，否则无效':''"
+        :title="element.dictionary===''||!element.dictionary?'请填写唯一标识，否则无效':'编辑'"
         @click="editElement(element)"
       ></el-button>
       <el-button
@@ -59,6 +59,7 @@
         icon="el-icon-delete"
         plain
         circle
+        title="删除"
         size="mini"
         @click="deleteElement(element)"
       ></el-button>
@@ -101,12 +102,16 @@ export default {
   position: relative;
 }
 .warn-btn::after {
-  content: '';
+  content: '!';
   display: block;
   position: absolute;
-  width: 8px;
-  height: 8px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
+  color: #fff;
+  text-align: center;
+  line-height: 12px;
+  font-size: 12px;
   background-color: #f56c6c;
   border: 1px solid #fff;
   top: -2px;
