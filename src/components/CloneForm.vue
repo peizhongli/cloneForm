@@ -1,19 +1,26 @@
 <template>
   <div>
     <section class="normal">
-      <h3>所有</h3>
-      <render-wrap :list="normalList" :options="normalOpt"></render-wrap>
+      <h3>可配置项</h3>
+      <render-wrap :list="normalList"></render-wrap>
     </section>
     <section class="custom">
-      <h3>预览</h3>
+      <h3>预览 <span class="el-icon-view" @click="showCard"></span></h3>
       <render-wrap
         :list="customList"
-        :options="customOpt"
         model="custom"
         @deleteElement="deleteEle"
         @editElement="editEle"
       ></render-wrap>
     </section>
+    <el-dialog :visible.sync="dialogVisible">
+      <render-wrap
+        :list="showList"
+        model="preview"
+        @deleteElement="deleteEle"
+        @editElement="editEle"
+      ></render-wrap>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -24,20 +31,15 @@ export default {
   watch: {},
   data() {
     return {
-      normalOpt: {
-        group: { name: "form", pull: "clone", put: false },
-        sort: false
-      },
-      customOpt: {
-        group: "form"
-      },
       customList: [],
       normalList: [
         { id: 1, label: "输入框", type: "input", value: "" },
         { id: 2, label: "下拉框", type: "select", value: "" },
         { id: 3, label: "多行文本框", type: "textarea", value: "" },
         { id: 4, label: "日期选择器", type: "datePicker", value: "" }
-      ]
+      ],
+      dialogVisible: false,
+      showList: [],
     };
   },
   computed: {},
@@ -55,6 +57,9 @@ export default {
           break;
         }
       }
+    },
+    showCard() {
+      this.dialogVisible = true;
     }
   }
 };

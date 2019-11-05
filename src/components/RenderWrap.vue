@@ -11,7 +11,7 @@
         v-if="model==='custom'"
         @click="setMain"
       ></el-link>
-      <draggable :clone="cloneList" :list="list" :options="options" element="el-form" class="main-wrap">
+      <draggable :clone="cloneList" :list="list" :options="option" element="el-form" class="main-wrap">
         <renders
           v-for="(element,index) in list"
           :key="element.id"
@@ -26,7 +26,7 @@
         <el-button type="primary" @click="confirmOpt">{{mainSetting.confirm}}</el-button>
       </div>
     </el-card>
-    <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible" top="0">
+    <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible" top="0" :close-on-click-modal="false">
       <section class="form-content" v-if="dialogTitle==='弹窗参数设置'">
         <el-form :model="mainSetting" :label-width="'70px'" class="main-form">
           <el-form-item label="显示参数">
@@ -117,7 +117,14 @@ export default {
         newCancel: "取消"
       },
       eleSetting: {},
-      editIndex: 0
+      editIndex: 0,
+      normalOpt: {
+        group: { name: "form", pull: "clone", put: false },
+        sort: false
+      },
+      customOpt: {
+        group: "form"
+      },
     };
   },
   methods: {
@@ -164,6 +171,16 @@ export default {
     previewCard(){}
   },
   computed: {
+    option(){
+      let option = JSON.parse(JSON.stringify(this.normalOpt));
+      if(this.model==='custom') {
+        option = JSON.parse(JSON.stringify(this.customOpt))
+        Object.assign(option,this.options)
+      } else {
+        Object.assign(option,this.options)
+      }
+      return option
+    },
     eleSettingList() {
       let settingList = this.list.map(i => {
         return {

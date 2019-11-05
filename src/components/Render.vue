@@ -1,10 +1,5 @@
 <template>
-  <el-form-item
-    :label="element.label"
-    label-width="100px"
-    :class="model==='custom'?'custom-item':''"
-    :required="element.required"
-  >
+  <el-form-item :label="element.label" label-width="100px" :class="model==='custom'?'custom-item':''" :required="element.required">
     <!-- 下拉框 -->
     <el-select
       v-if="element.type==='select'"
@@ -89,6 +84,19 @@ export default {
     deleteElement(ele) {
       this.$emit("deleteElement", ele);
     }
+  },
+  computed: {
+    // itemClass() {
+    //   let className = "";
+    //   if (this.model === "custom") {
+    //     if (this.element.dictionary === "" || !element.dictionary) {
+    //       className = "custom enable";
+    //     } else {
+    //       className = "custom";
+    //     }
+    //   }
+    //   return className;
+    // }
   }
 };
 </script>
@@ -102,7 +110,7 @@ export default {
   position: relative;
 }
 .warn-btn::after {
-  content: '!';
+  content: "!";
   display: block;
   position: absolute;
   width: 12px;
@@ -115,7 +123,7 @@ export default {
   background-color: #f56c6c;
   border: 1px solid #fff;
   top: -2px;
-  right: -4px;
+  right: -7px;
 }
 .custom-item >>> .el-form-item__content > div {
   max-width: 80%;
