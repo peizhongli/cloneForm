@@ -5,7 +5,10 @@
       <render-wrap :list="normalList"></render-wrap>
     </section>
     <section class="custom">
-      <h3>预览 <span class="el-icon-view" @click="showCard"></span></h3>
+      <h3>
+        预览
+        <span class="el-icon-view" @click="showCard"></span>
+      </h3>
       <render-wrap
         :list="customList"
         model="custom"
@@ -17,8 +20,6 @@
       <render-wrap
         :list="showList"
         model="preview"
-        @deleteElement="deleteEle"
-        @editElement="editEle"
       ></render-wrap>
     </el-dialog>
   </div>
@@ -39,7 +40,7 @@ export default {
         { id: 4, label: "日期选择器", type: "datePicker", value: "" }
       ],
       dialogVisible: false,
-      showList: [],
+      showList: []
     };
   },
   computed: {},
@@ -50,8 +51,8 @@ export default {
     editEle(ele, index) {
       for (let i = 0; i < this.customList.length; i++) {
         if (i === index) {
-          for(let j in ele) {
-            this.customList[i][j]=ele[j]
+          for (let j in ele) {
+            this.customList[i][j] = ele[j];
           }
           console.log(this.customList[i]);
           break;
@@ -59,6 +60,9 @@ export default {
       }
     },
     showCard() {
+      this.showList = this.customList.filter(
+        i => i.dictionary && i.dictionary !== ""
+      );
       this.dialogVisible = true;
     }
   }

@@ -11,7 +11,13 @@
         v-if="model==='custom'"
         @click="setMain"
       ></el-link>
-      <draggable :clone="cloneList" :list="list" :options="option" element="el-form" class="main-wrap">
+      <draggable
+        :clone="cloneList"
+        :list="list"
+        :options="option"
+        element="el-form"
+        class="main-wrap"
+      >
         <renders
           v-for="(element,index) in list"
           :key="element.id"
@@ -26,7 +32,12 @@
         <el-button type="primary" @click="confirmOpt">{{mainSetting.confirm}}</el-button>
       </div>
     </el-card>
-    <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible" top="0" :close-on-click-modal="false">
+    <el-dialog
+      :title="dialogTitle"
+      :visible.sync="dialogFormVisible"
+      top="0"
+      :close-on-click-modal="false"
+    >
       <section class="form-content" v-if="dialogTitle==='弹窗参数设置'">
         <el-form :model="mainSetting" :label-width="'70px'" class="main-form">
           <el-form-item label="显示参数">
@@ -67,7 +78,10 @@
           <el-form-item label="占位内容">
             <el-input v-model="eleSetting.placeholder"></el-input>
           </el-form-item>
-          <el-form-item label="最大长度" v-show="eleSetting.type==='input'||eleSetting.type==='textarea'">
+          <el-form-item
+            label="最大长度"
+            v-show="eleSetting.type==='input'||eleSetting.type==='textarea'"
+          >
             <el-input v-model="eleSetting.maxLength"></el-input>
           </el-form-item>
           <el-form-item label="输入类型" v-show="eleSetting.type==='input'">
@@ -124,7 +138,7 @@ export default {
       },
       customOpt: {
         group: "form"
-      },
+      }
     };
   },
   methods: {
@@ -155,7 +169,7 @@ export default {
       for (let i = 0; i < this.list.length; i++) {
         if (i === index) {
           this.eleSetting = JSON.parse(JSON.stringify(this.list[i]));
-          console.log(this.eleSetting)
+          console.log(this.eleSetting);
           break;
         }
       }
@@ -168,18 +182,20 @@ export default {
       // 深拷贝对象，防止默认空对象被更改
       return JSON.parse(JSON.stringify(original));
     },
-    previewCard(){}
+    previewCard() {}
   },
   computed: {
-    option(){
+    option() {
       let option = JSON.parse(JSON.stringify(this.normalOpt));
-      if(this.model==='custom') {
-        option = JSON.parse(JSON.stringify(this.customOpt))
-        Object.assign(option,this.options)
+      if (this.model === "custom") {
+        option = JSON.parse(JSON.stringify(this.customOpt));
+        Object.assign(option, this.options);
+      } else if (this.model === "preview") {
+        Object.assign(option, this.options);
       } else {
-        Object.assign(option,this.options)
+        Object.assign(option, this.options);
       }
-      return option
+      return option;
     },
     eleSettingList() {
       let settingList = this.list.map(i => {
@@ -190,7 +206,7 @@ export default {
           maxLength: 20,
           dictionary: "",
           clearable: false,
-          contentType: "text",
+          contentType: "text"
         };
       });
       return settingList;
