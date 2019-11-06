@@ -68,11 +68,17 @@
         </el-form>
       </section>
       <section class="element-content" v-if="dialogTitle==='元素参数设置'">
-        <el-form :model="eleSetting" :label-width="'90px'" class="main-form">
+        <el-form
+          :model="eleSetting"
+          :label-width="'90px'"
+          class="main-form"
+          ref="eleForm"
+          :rules="rules"
+        >
           <el-form-item label="元素名称">
             <el-input v-model="eleSetting.label"></el-input>
           </el-form-item>
-          <el-form-item label="唯一标识" required>
+          <el-form-item label="唯一标识" required prop="dictionary">
             <el-input v-model="eleSetting.dictionary"></el-input>
           </el-form-item>
           <el-form-item label="占位内容">
@@ -138,6 +144,13 @@ export default {
       },
       customOpt: {
         group: "form"
+      },
+      rules: {
+        dictionary: {
+          required: true,
+          message: "请设置唯一标识",
+          trigger: "blur"
+        }
       }
     };
   },
@@ -147,21 +160,34 @@ export default {
       this.dialogFormVisible = true;
     },
     confirmOpt() {
-      if (this.dialogTitle === "弹窗参数设置") {
-        this.mainSetting.checkList.forEach(i => {
-          if (i === "标题" && this.mainSetting.newTitle !== "") {
-            this.mainSetting.title = this.mainSetting.newTitle;
-          } else if (i === "确认按钮" && this.mainSetting.newConfirm !== "") {
-            this.mainSetting.confirm = this.mainSetting.newConfirm;
-          } else if (i === "取消按钮" && this.mainSetting.newCancel !== "") {
-            this.mainSetting.cancel = this.mainSetting.newCancel;
+      this.$refs["eleForm"].validate(valid => {
+        if (valid) {
+          if (this.dialogTitle === "弹窗参数设置") {
+            this.mainSetting.checkList.forEach(i => {
+              if (i === "标题" && this.mainSetting.newTitle !== "") {
+                this.mainSetting.title = this.mainSetting.newTitle;
+              } else if (
+                i === "确认按钮" &&
+                this.mainSetting.newConfirm !== ""
+              ) {
+                this.mainSetting.confirm = this.mainSetting.newConfirm;
+              } else if (
+                i === "取消按钮" &&
+                this.mainSetting.newCancel !== ""
+              ) {
+                this.mainSetting.cancel = this.mainSetting.newCancel;
+              }
+            });
+          } else {
+            this.$emit("editElement", this.eleSetting, this.editIndex);
           }
-        });
-      } else {
-        this.$emit("editElement", this.eleSetting, this.editIndex);
-      }
 
-      this.dialogFormVisible = false;
+          this.dialogFormVisible = false;
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     },
     editElement(ele, index) {
       this.dialogTitle = "元素参数设置";
